@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,18 +11,18 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 import java.io.*;
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SimpleCrawlerPoC {
+public class SimpleSeleniumCrawlerPoC {
 
-    private static final Logger logger = Logger.getLogger(SimpleCrawlerPoC.class.getName());
+    private static final Logger logger = Logger.getLogger(SimpleSeleniumCrawlerPoC.class.getName());
 
     private static final String RESOURCES_FOLDER_PATH = System.getProperty("user.dir")
             + File.separator + "src"
             + File.separator + "main"
             + File.separator + "resources";
+    private static final String RESOURCES_DATA_FOLDER_PATH = RESOURCES_FOLDER_PATH + File.separator + "data";
     private static final String RESOURCES_DRIVERS_FOLDER_PATH = RESOURCES_FOLDER_PATH + File.separator + "drivers";
     private static final String RESOURCES_DOWNLOADS_FOLDER_PATH = RESOURCES_FOLDER_PATH + File.separator + "downloads";
     private static final String RESOURCES_SCREENSHOTS_FOLDER_PATH = RESOURCES_FOLDER_PATH + File.separator + "screenshots";
@@ -39,20 +40,22 @@ public class SimpleCrawlerPoC {
     private static final String IE_PROPERTY_KEY = "webdriver.ie.driver";
 
     public static void main(String[] args) {
-        removeFileFromDownloadsFolderIfExistsByPrefix("Moeda");
-        removeFileFromDownloadsFolderIfExistsByPrefix("download-options-view-01");
+        removeFileFromFolderIfExistsByPrefix(RESOURCES_DATA_FOLDER_PATH, "coins");
+        removeFileFromFolderIfExistsByPrefix(RESOURCES_DOWNLOADS_FOLDER_PATH, "Moeda");
+        removeFileFromFolderIfExistsByPrefix(RESOURCES_SCREENSHOTS_FOLDER_PATH, "download-options-view-01");
 
         WebDriver driver = getFirefoxDriver();
 
         final String SISTEMA_TABELA_ADUANEIRAS_URL = "https://www35.receita.fazenda.gov.br/tabaduaneiras-web/private/pages/telaInicial.jsf";
 
         driver.get(SISTEMA_TABELA_ADUANEIRAS_URL);
+        driver.manage().window().maximize();
+
         String pageTitle = driver.getTitle();
 
         logger.log(Level.INFO, "Título da Página -> " + pageTitle);
 
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        awaitFor(10, "Aguardando a inserção manual do CAPTCHA.");
+        awaitFor(5, "Aguardando a inserção manual do CAPTCHA.");
 
         WebElement captchaInput = driver.findElement(By.id("txtTexto_captcha_serpro_gov_br"));
 
@@ -74,12 +77,12 @@ public class SimpleCrawlerPoC {
         String screenshotFileNameWithPath = RESOURCES_SCREENSHOTS_FOLDER_PATH + File.separator + "download-options-view-01.png";
         takeScreenshot(driver, screenshotFileNameWithPath);
 
-        awaitFor(4, "Aguardando a finalização do download do arquivo CSV.");
-
-        printList(readCoinCsvFile());
+        awaitFor(1, "Aguardando a finalização do download do arquivo CSV.");
 
         logger.log(Level.INFO, "Closed driver");
         driver.close();
+
+        printList(readCoinCsvFile());
     }
 
     public static void takeScreenshot(WebDriver driver, String fileWithPath) {
@@ -116,6 +119,9 @@ public class SimpleCrawlerPoC {
     public static WebDriver getFirefoxDriver() {
         System.setProperty(GECKO_PROPERTY_KEY, FIREFOX_DRIVER_FULL_PATH);
 
+//        FirefoxBinary binary = new FirefoxBinary();
+//        binary.addCommandLineOptions("--headless");
+
         FirefoxProfile profile = new FirefoxProfile();
         profile.setPreference("browser.download.folderList", 2);
         profile.setPreference("browser.download.dir", RESOURCES_DOWNLOADS_FOLDER_PATH);
@@ -124,6 +130,7 @@ public class SimpleCrawlerPoC {
 
         FirefoxOptions options = new FirefoxOptions();
         options.setProfile(profile);
+//        options.setBinary(binary);
 
         return new FirefoxDriver(options);
     }
@@ -170,11 +177,26 @@ public class SimpleCrawlerPoC {
                 );
                 coins.add(coin);
             }
+
+            String jsonCoinsFilePath = RESOURCES_DATA_FOLDER_PATH + File.separator + "coins.json";
+            convertObjectListToJsonAndSaveFile(coins, jsonCoinsFilePath);
+
         } catch (Exception ex) {
             logger.log(Level.WARNING, ex.getMessage());
         }
 
         return coins;
+    }
+
+    public static <T extends Object> void convertObjectListToJsonAndSaveFile(List<T> objects, String fileNameWithPath) throws IOException {
+        Gson gson = new Gson();
+
+        String jsonObjectsString = gson.toJson(objects);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileNameWithPath));
+        writer.write(jsonObjectsString);
+
+        writer.close();
     }
 
     public static <T extends Object> void printList(List<T> list) {
@@ -189,8 +211,8 @@ public class SimpleCrawlerPoC {
         }
     }
 
-    public static void removeFileFromDownloadsFolderIfExistsByPrefix(String prefix) {
-        File folder = new File(RESOURCES_DOWNLOADS_FOLDER_PATH);
+    public static void removeFileFromFolderIfExistsByPrefix(String folderPath, String prefix) {
+        File folder = new File(folderPath);
         File[] files = folder.listFiles();
 
         try {

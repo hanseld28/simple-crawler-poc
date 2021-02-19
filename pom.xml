@@ -6,6 +6,7 @@
 
     <groupId>br.com.hanseld.poc</groupId>
     <artifactId>simple-crawler-poc</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
@@ -19,20 +20,8 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>3.141.59</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>3.141.59</version>
-        </dependency>
-
-    </dependencies>
+    <modules>
+        <module>crawler4j</module>
+        <module>selenium-web-driver</module>
+    </modules>
 </project>
