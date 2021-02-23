@@ -1,0 +1,46 @@
+SISTEMAS DE COMÉRCIO EXTERIOR | IMPORTAÇÃO
+
+1. SISCOMEX IMPORTAÇÃO
+Licença de Importação (LI) e Declaração de Importação (DI)
+Sistema que permite ao usuário executar atividades, restritas ao perfil em que esteja habilitado, relativas ao tratamento administrativo e despacho aduaneiro de importação, tais como: solicitação da licença de importação (LI) e registro da Declaração de Importação (DI).
+URL: https://www1.siscomex.receita.fazenda.gov.br/siscomexImpweb-7/login_cert.jsp
+
+2. ANUENTE WEB – SISCOMEX IMPORTAÇÃO
+SECEX
+Sistema pelo qual os órgãos anuentes analisam licenciamentos de importação que requeiram sua anuência e registram o resultado de tal análise para que este seja visível ao importador no módulo de licenciamento.
+URL: https://siscomex.desenvolvimento.gov.br/AnuenteWeb
+
+3. CERTIFICADOS DE ORIGEM DIGITAIS (COD)
+Receita Federal
+O Módulo Aduaneiro de Recepção de Certificados de Origem Digitais (COD), comumente denominado de SiscoImagem, permite ao importador apresentar Certificados de Origem Digitais (COD) às unidades locais da RFB responsáveis pela conferência aduaneira dos despachos de importação de suas mercadorias, reduzindo assim a necessidade do uso do papel e protocolização presencial, dentre outras vantagens.
+URL: https://www4.receita.fazenda.gov.br/siscoimagem/public/pages/security/login.jsp
+
+4. LICENÇA PARA IMPORTAÇÃO OU EXPORTAÇÃO DE FLORA E FAUNA
+Ibama
+A Convenção sobre Comércio Internacional das Espécies da Flora e Fauna Selvagens em Perigo de Extinção – CITES -, regula o comércio de espécies da fauna e flora prevenindo-as do perigo de extinção quando a ameaça for o comércio internacional. O IBAMA incorporou os procedimentos exigidos para avaliação e emissão de Licenças de exportação e importação em um software on-line (Serviço CITES) pelo qual os exportadores e importadores deverão solicitar suas licenças.
+URL: http://www.ibama.gov.br/cites-e-comercio-exterior/licenca-cites/licenca-de-importacao-exportacao-especimes-da-fauna
+
+5. SISTEMA P/ IMPORTAÇÃO DE MERCÚRIO METÁLICO
+Ibama
+A Política Nacional do Meio Ambiente, Lei nº 6.938/1981, determina ao Ibama a responsabilidade de autorizar a importação e controlar a produção, a comercialização e o uso de mercúrio metálico no Brasil.
+URL: https://www.ibama.gov.br/autorizacoes/mercurio-metalico/importacao-de-mercurio-metalico
+
+6. ORQUESTRA
+Inmetro
+Processo de Análise de Licença de Importação para Anuência automatizado utilizando a ferramenta de BPMS Orquestra.
+URL: http://orquestra.inmetro.gov.br/workbase/wusersignin.aspx?g=Ri7PXb80gzY=
+
+7. PEDIDO DE LICENCIAMENTO DE IMPORTAÇÃO – PLI (DOWNLOAD)
+SUFRAMA
+O PLI é o programa desenvolvido pela SUFRAMA para disponibilizar às empresas do Polo Industrial de Manaus uma ferramenta para elaboração de documentos de Pedido de Licenciamento de Importação – PLI. Através do PLI você pode confeccionar, validar e enviar documentos à SUFRAMA de forma automatizada.
+URL: http://www.suframa.gov.br/servicos_down_soft_pli.cfm
+
+8. SLI – MATÉRIAS PRIMAS E MINERAIS
+CNEN
+Solicitação de Licença de Importação para Matérias Primas e Minerais.
+URL: http://www.cnen.gov.br/seguranca/formularios/sli-mpm/inc-form-licencaImport-f1.asp
+
+9. SLI – RADIOISÓTIPOS E/OU EQUIP. GER. DE RADIAÇÃO IONIZANTE
+CNEN
+Para importar radioisótopos e/ou equipamentos geradores de radiação ionizante é necessário preencher corretamente os dados no SISCOMEX, bem como o formulário eletrônico Solicitação para Licença de Importação para Material Radioativo e/ou Equipamento Gerador de Radiação Ionizante – SLI.
+URL: http://www.cnen.gov.br/seguranca/lfc/acr-fontes.asp#anc-import
