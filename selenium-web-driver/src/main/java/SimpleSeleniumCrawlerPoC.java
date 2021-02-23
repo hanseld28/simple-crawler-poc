@@ -26,6 +26,7 @@ public class SimpleSeleniumCrawlerPoC {
     private static final String RESOURCES_DRIVERS_FOLDER_PATH = RESOURCES_FOLDER_PATH + File.separator + "drivers";
     private static final String RESOURCES_DOWNLOADS_FOLDER_PATH = RESOURCES_FOLDER_PATH + File.separator + "downloads";
     private static final String RESOURCES_SCREENSHOTS_FOLDER_PATH = RESOURCES_FOLDER_PATH + File.separator + "screenshots";
+    private static final String RESOURCES_PROFILES_FOLDER_PATH = RESOURCES_FOLDER_PATH + File.separator + "profiles";
 
     private static final String CHROME_DRIVER_EXE_NAME = "chromedriver.exe";
     private static final String GECKO_DRIVER_EXE_NAME = "geckodriver.exe";
@@ -40,6 +41,25 @@ public class SimpleSeleniumCrawlerPoC {
     private static final String IE_PROPERTY_KEY = "webdriver.ie.driver";
 
     public static void main(String[] args) {
+        fetchCustomsTables();
+//        fetchMerchant();
+    }
+
+    private static void fetchMerchant() {
+        WebDriver driver = getFirefoxDriver();
+
+        final String SISTEMA_TABELA_ADUANEIRAS_URL = "https://www.mercante.transportes.gov.br/g33159MT/jsp/logon.jsp";
+
+        driver.get(SISTEMA_TABELA_ADUANEIRAS_URL);
+        driver.manage().window().maximize();
+        driver.findElement(By.xpath("//*[@id=\"cpfsenha\"]/table[1]/tbody/tr[2]/td/table/tbody/tr[4]/td[1]/table/tbody/tr[4]/td[2]/div/a/img"))
+                .click();
+
+        String pageTitle = driver.getTitle();
+        logger.log(Level.INFO, "Título da Página -> " + pageTitle);
+    }
+
+    private static void fetchCustomsTables() {
         removeFileFromFolderIfExistsByPrefix(RESOURCES_DATA_FOLDER_PATH, "coins");
         removeFileFromFolderIfExistsByPrefix(RESOURCES_DOWNLOADS_FOLDER_PATH, "Moeda");
         removeFileFromFolderIfExistsByPrefix(RESOURCES_SCREENSHOTS_FOLDER_PATH, "download-options-view-01");
@@ -85,7 +105,7 @@ public class SimpleSeleniumCrawlerPoC {
         printList(readCoinCsvFile());
     }
 
-    public static void takeScreenshot(WebDriver driver, String fileWithPath) {
+    private static void takeScreenshot(WebDriver driver, String fileWithPath) {
         TakesScreenshot takesScreenshot = ((TakesScreenshot) driver);
         File sourceFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
         File copiedFile = new File(fileWithPath);
@@ -104,7 +124,7 @@ public class SimpleSeleniumCrawlerPoC {
         }
     }
 
-    public static WebDriver getChromeDriver() {
+    private static WebDriver getChromeDriver() {
         System.setProperty(CHROME_PROPERTY_KEY, CHROME_DRIVER_FULL_PATH);
 
         Map preferencesMap = new HashMap();
@@ -116,26 +136,24 @@ public class SimpleSeleniumCrawlerPoC {
         return new ChromeDriver(options);
     }
 
-    public static WebDriver getFirefoxDriver() {
+    private static WebDriver getFirefoxDriver() {
         System.setProperty(GECKO_PROPERTY_KEY, FIREFOX_DRIVER_FULL_PATH);
 
-//        FirefoxBinary binary = new FirefoxBinary();
-//        binary.addCommandLineOptions("--headless");
-
-        FirefoxProfile profile = new FirefoxProfile();
-        profile.setPreference("browser.download.folderList", 2);
-        profile.setPreference("browser.download.dir", RESOURCES_DOWNLOADS_FOLDER_PATH);
-        profile.setPreference("browser.download.manager.alertOnEXEOpen", false);
-        profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/msword,application/csv,text/csv,image/png,image/jpeg,application/pdf,text/html,text/plain,application/octet-stream");
-
         FirefoxOptions options = new FirefoxOptions();
-        options.setProfile(profile);
-//        options.setBinary(binary);
+        options.addPreference("browser.download.folderList", 2);
+        options.addPreference("browser.download.dir", RESOURCES_DOWNLOADS_FOLDER_PATH);
+        options.addPreference("browser.download.manager.alertOnEXEOpen", false);
+        options.addPreference("browser.helperApps.neverAsk.saveToDisk", "application/msword,application/csv,text/csv,image/png,image/jpeg,application/pdf,text/html,text/plain,application/octet-stream");
+//        options.addArguments("--headless");
+
+//        FirefoxProfile profile = new FirefoxProfile();
+//        profile.addExtension(new File(RESOURCES_PROFILES_FOLDER_PATH + File.separator + "comex-profile.xpi"));
+//        options.setProfile(profile);
 
         return new FirefoxDriver(options);
     }
 
-    public static WebDriver getIEDriver() {
+    private static WebDriver getIEDriver() {
         System.setProperty(IE_PROPERTY_KEY, IE_DRIVER_FULL_PATH);
 
         InternetExplorerOptions options = new InternetExplorerOptions();
@@ -144,7 +162,7 @@ public class SimpleSeleniumCrawlerPoC {
         return new InternetExplorerDriver(options);
     }
 
-    public static void awaitFor(int seconds, String reason) {
+    private static void awaitFor(int seconds, String reason) {
         try {
             logger.log(Level.INFO, "[PAUSED] Execução pausada por " + seconds + " segundos. \n[REASON] " + reason);
             Thread.sleep(Duration.ofSeconds(seconds).toMillis());
@@ -154,7 +172,7 @@ public class SimpleSeleniumCrawlerPoC {
         }
     }
 
-    public static List<Coin> readCoinCsvFile() {
+    private static List<Coin> readCoinCsvFile() {
         String coinCsvFilePath = RESOURCES_DOWNLOADS_FOLDER_PATH + File.separator + "Moeda.csv";
 
         List<Coin> coins = new ArrayList<>();
@@ -188,7 +206,7 @@ public class SimpleSeleniumCrawlerPoC {
         return coins;
     }
 
-    public static <T extends Object> void convertObjectListToJsonAndSaveFile(List<T> objects, String fileNameWithPath) throws IOException {
+    private static <T extends Object> void convertObjectListToJsonAndSaveFile(List<T> objects, String fileNameWithPath) throws IOException {
         Gson gson = new Gson();
 
         String jsonObjectsString = gson.toJson(objects);
@@ -199,7 +217,7 @@ public class SimpleSeleniumCrawlerPoC {
         writer.close();
     }
 
-    public static <T extends Object> void printList(List<T> list) {
+    private static <T extends Object> void printList(List<T> list) {
         int total = list.size();
         logger.log(Level.INFO, total + " registros encontrados.");
         for (int i = 0; i < total; i++) {
@@ -211,7 +229,7 @@ public class SimpleSeleniumCrawlerPoC {
         }
     }
 
-    public static void removeFileFromFolderIfExistsByPrefix(String folderPath, String prefix) {
+    private static void removeFileFromFolderIfExistsByPrefix(String folderPath, String prefix) {
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
 
