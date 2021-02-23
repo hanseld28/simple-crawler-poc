@@ -23,5 +23,6 @@
     <modules>
         <module>crawler4j</module>
         <module>selenium-web-driver</module>
+        <module>htmlunit</module>
     </modules>
 </project>
