@@ -4,15 +4,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.gargoylesoftware.htmlunit.util.NameValuePair;
-import net.sourceforge.htmlunit.corejs.javascript.Context;
-import net.sourceforge.htmlunit.corejs.javascript.ScriptableObject;
 import net.sourceforge.htmlunit.corejs.javascript.json.JsonParser;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.client.utils.HttpClientUtils;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import sun.net.www.http.HttpClient;
 
 import java.io.*;
 import java.net.MalformedURLException;
